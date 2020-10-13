@@ -11,7 +11,7 @@ It is **deployed to [Vercel](https://vercel.com/)** and is inspired by
 The main difference is that this service is designed to be reusable across many
 use cases. It can capture arbitrary URLs and run arbitrary code.
 
-It is multi-tenant. I can [reuse this service](#adding-new-tenant) without
+It is multi-tenant. I can [reuse this service](#adding-a-new-tenant) without
 having to share secrets.
 
 ## Usage
