@@ -26,6 +26,113 @@
   </head>
   <body>
     <h1>personal-puppeteer</h1>
-    <p>This is a personal image screenshotting service.</p>
+    <p>
+      This is a <em>personal web page screenshotting service</em>. By
+      <em>personal</em> I mean only I can use it. But it is
+      <a href="https://github.com/dtinth/personal-puppeteer">open source</a>,
+      and you can run your own instance.
+    </p>
+    <h2>How to use it</h2>
+    <ol>
+      <li>
+        <p>Generate a JWT with these fields:</p>
+        <table>
+          <thead>
+            <tr>
+              <th width="180">Key</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>iss</code></td>
+              <td>
+                JWT issuer, which must be in the following
+                <a href="#jwt-allow-list">allowlist</a>
+              </td>
+            </tr>
+            <tr>
+              <td><code>url</code></td>
+              <td>URL to screenshot</td>
+            </tr>
+            <tr>
+              <td><code>width</code></td>
+              <td>Width of the viewport</td>
+            </tr>
+            <tr>
+              <td><code>width</code></td>
+              <td>Height of the viewport</td>
+            </tr>
+            <tr>
+              <td><code>deviceScaleFactor</code></td>
+              <td>1 for normal display, 2 for retina</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        Construct a URL and use it:
+        <pre><code><script>document.write(location.origin + '/<strong>&lt;JWT&gt;</strong>.png')</script></code></pre>
+      </li>
+    </ol>
+
+    <h2>Notes</h2>
+    <ul>
+      <li>
+        The generated screenshot is then
+        <a href="https://vercel.com/docs/edge-network/caching"
+          >cached by Vercel Edge Network</a
+        >. The cache header being used is
+        <code
+          >public, immutable, no-transform, s-maxage=31536000,
+          max-age=31536000</code
+        >, which means that you must generate a new URL to invalidate the cache.
+      </li>
+    </ul>
+
+    <h2>Allowed JWT issuers</h2>
+    <div id="jwt-allowlist">
+      <table>
+        <thead>
+          <tr>
+            <th width="20%">Issuer</th>
+            <th>Public key</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-if="allowlist">
+            <tr v-for="item, key of allowlist" :key="key">
+              <td><code>{{key}}</code></td>
+              <td>
+                <pre style="margin: 0"><code>{{item.publicKey}}</code></pre>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="2"><em>(Loading...)</em></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"
+      integrity="sha256-KSlsysqp7TXtFo/FHjb1T9b425x3hrvzjMWaJyKbpcI="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      new Vue({
+        el: '#jwt-allowlist',
+        data: {
+          allowlist: null,
+        },
+        mounted() {
+          fetch('/api/auth')
+            .then((x) => x.json())
+            .then((x) => (this.allowlist = x))
+        },
+      })
+    </script>
   </body>
 </html>
