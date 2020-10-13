@@ -9,6 +9,9 @@ require('yargs')
       url: {
         type: 'string',
       },
+      waitUntil: {
+        type: 'string',
+      },
       width: {
         type: 'number',
         alias: 'w',
@@ -25,7 +28,12 @@ require('yargs')
         require.resolve('./private/jwtRS256.key')
       )
       const jwt = require('jsonwebtoken').sign(
-        { url: args.url, width: args.width, height: args.height },
+        {
+          url: args.url,
+          width: args.width,
+          height: args.height,
+          waitUntil: args.waitUntil,
+        },
         key,
         {
           algorithm: 'RS256',
