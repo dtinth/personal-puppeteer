@@ -21,12 +21,24 @@ export default async function (req: NowRequest, res: NowResponse) {
     }) as any
     const type = String(req.query.type) === 'jpeg' ? 'jpeg' : ('png' as const)
     const url = String(payload.url)
+    const waitUntil = (() => {
+      const allowedValues = [
+        'load',
+        'domcontentloaded',
+        'networkidle0',
+        'networkidle2',
+      ] as const
+      const value = String(payload.waitUntil)
+      const index = allowedValues.indexOf(value as any)
+      return allowedValues[index] || 'load'
+    })()
     const result = await renderImage({
       url,
       type,
       width: +payload.width || 1280,
       height: +payload.height || 720,
       deviceScaleFactor: +payload.deviceScaleFactor || 1,
+      waitUntil,
     })
     res.setHeader('Content-Type', 'image/' + type)
     res.setHeader(
@@ -46,6 +58,7 @@ interface ScreenshotOptions {
   height: number
   deviceScaleFactor: number
   type: 'jpeg' | 'png'
+  waitUntil: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2'
 }
 
 async function renderImage({
@@ -54,10 +67,11 @@ async function renderImage({
   width,
   height,
   deviceScaleFactor,
+  waitUntil,
 }: ScreenshotOptions) {
   let page = await getPage()
   await page.setViewport({ width, height, deviceScaleFactor })
-  await page.goto(url, { waitUntil: 'load' })
+  await page.goto(url, { waitUntil })
   const file = await page.screenshot({ type })
   return file
 }
