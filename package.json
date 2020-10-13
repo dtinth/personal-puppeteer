@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/puppeteer": "2.0.1",
+    "@types/puppeteer-core": "2.0.0",
+    "@vercel/node": "^1.7.1",
+    "typescript": "^3.9.6",
+    "vercel": "^20.1.2"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
+    "chrome-aws-lambda": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "puppeteer-core": "^5.3.1"
+  }
+}

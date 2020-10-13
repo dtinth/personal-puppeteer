@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/([^/]+).png",
+      "dest": "/api/image?jwt=$1&type=png"
+    },
+    {
+      "src": "/([^/]+).jpg",
+      "dest": "/api/image?jwt=$1&type=jpeg"
+    }
+  ]
+}
