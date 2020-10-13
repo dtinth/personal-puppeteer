@@ -12,6 +12,11 @@ require('yargs')
       waitUntil: {
         type: 'string',
       },
+      deviceScaleFactor: {
+        type: 'number',
+        alias: 's',
+        default: 1,
+      },
       width: {
         type: 'number',
         alias: 'w',
@@ -33,6 +38,7 @@ require('yargs')
           width: args.width,
           height: args.height,
           waitUntil: args.waitUntil,
+          deviceScaleFactor: args.deviceScaleFactor,
         },
         key,
         {
