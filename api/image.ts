@@ -1,13 +1,27 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import { launch, Page } from 'puppeteer-core'
 import chrome from 'chrome-aws-lambda'
+import { decode, verify } from 'jsonwebtoken'
+import { allowList } from './auth'
 
 let _page: Page | null
 
 export default async function (req: NowRequest, res: NowResponse) {
   try {
+    const jwt = String(req.query.jwt)
+    const issuer = String((decode(jwt) as any)?.iss)
+    if (!Object.prototype.hasOwnProperty.call(allowList, issuer)) {
+      res.status(401).json({ error: { message: 'Unrecognized issuer.' } })
+      return
+    }
+    const registeredIssuer = allowList[issuer]
+    const payload = verify(jwt, registeredIssuer.publicKey, {
+      algorithms: ['RS256'],
+      issuer: issuer,
+    }) as any
     const type = String(req.query.type) === 'jpeg' ? 'jpeg' : ('png' as const)
-    const result = await renderImage('https://dt.in.th', type)
+    const url = String(payload.url)
+    const result = await renderImage(url, type)
     res.setHeader('Content-Type', 'image/' + type)
     res.setHeader(
       'Cache-Control',
