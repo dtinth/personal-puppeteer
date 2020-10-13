@@ -21,7 +21,13 @@ export default async function (req: NowRequest, res: NowResponse) {
     }) as any
     const type = String(req.query.type) === 'jpeg' ? 'jpeg' : ('png' as const)
     const url = String(payload.url)
-    const result = await renderImage(url, type)
+    const result = await renderImage({
+      url,
+      type,
+      width: +payload.width || 1280,
+      height: +payload.height || 720,
+      deviceScaleFactor: +payload.deviceScaleFactor || 1,
+    })
     res.setHeader('Content-Type', 'image/' + type)
     res.setHeader(
       'Cache-Control',
@@ -34,7 +40,29 @@ export default async function (req: NowRequest, res: NowResponse) {
   }
 }
 
-async function renderImage(url: string, type: 'jpeg' | 'png') {
+interface ScreenshotOptions {
+  url: string
+  width: number
+  height: number
+  deviceScaleFactor: number
+  type: 'jpeg' | 'png'
+}
+
+async function renderImage({
+  url,
+  type,
+  width,
+  height,
+  deviceScaleFactor,
+}: ScreenshotOptions) {
+  let page = await getPage()
+  await page.setViewport({ width, height, deviceScaleFactor })
+  await page.goto(url, { waitUntil: 'load' })
+  const file = await page.screenshot({ type })
+  return file
+}
+
+async function getPage() {
   let page = _page
   if (!page) {
     const browser = await launch({
@@ -46,8 +74,5 @@ async function renderImage(url: string, type: 'jpeg' | 'png') {
     page = await browser.newPage()
     _page = page
   }
-  await page.setViewport({ width: 2048, height: 1170 })
-  await page.goto(url, { waitUntil: 'load' })
-  const file = await page.screenshot({ type })
-  return file
+  return page
 }
