@@ -79,6 +79,12 @@ async function renderImage({
 async function getPage() {
   let page = _page
   if (!page) {
+    await chrome.font(
+      'https://cdn.jsdelivr.net/gh/googlei18n/noto-emoji@master/fonts/NotoColorEmoji.ttf'
+    )
+    await chrome.font(
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf'
+    )
     const browser = await launch({
       args: chrome.args,
       executablePath:
