@@ -23,6 +23,17 @@ yoD83zGow/xLirUG/dS/Fzt1O3xK5rBlNrNxRHwv0t36HCRhhPihG62vV7VwnXnI
 1wIDAQAB
 -----END PUBLIC KEY-----`,
   },
+  'screenshot-redirector': {
+    publicKey: `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuQgPix+cRdWGGfHDumA2
+uFfYMhlv2U0Jxc5ww+vIHeDddocxMOXRhjnWkjZ0z6E6Otq8FRgMKXCRFusoXx81
+nmrXrVwschDGf1ypwtaEN0ee5TQ9BCE68Maw8Haafjbwxw7najWiRk9q3VLQVcwC
+Mau0Zi16q/trasqgjXh5AAKUDO+7vsG1FI4yoNHrcVj+zvuLCPy/dcyJp18HpgoR
+bqMiXzkJJRd4vO7yfkW6NBIaudC+nRxui9isQrTAE9oFum5id01g4rvdEqjdFnYJ
+cZbPdanG0q/KbIQn+yddgujGNrrRmGNO14l+6eSMri+pqR+C3JSRU0VOPbguA+hw
+CwIDAQAB
+-----END PUBLIC KEY-----`,
+  },
 }
 
 type AllowListItem = {
