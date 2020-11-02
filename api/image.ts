@@ -72,6 +72,26 @@ async function renderImage({
   let page = await getPage()
   await page.setViewport({ width, height, deviceScaleFactor })
   await page.goto(url, { waitUntil })
+  // See: https://github.com/puppeteer/puppeteer/issues/511
+  await page.evaluate(async () => {
+    const style = document.createElement('style')
+    style.textContent = `
+      *,
+      *::after,
+      *::before {
+        transition-delay: 0s !important;
+        transition-duration: 0s !important;
+        animation-delay: -0.0001s !important;
+        animation-duration: 0s !important;
+        animation-play-state: paused !important;
+        caret-color: transparent !important;
+        color-adjust: exact !important;
+      }
+    `
+    document.head.appendChild(style)
+    await new Promise(requestAnimationFrame)
+    await new Promise(requestAnimationFrame)
+  })
   const file = await page.screenshot({ type })
   return file
 }
