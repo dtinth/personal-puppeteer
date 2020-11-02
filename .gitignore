@@ -143,3 +143,5 @@ Temporary Items
 .vercel
 tmp
 private
+local.settings.json
+
