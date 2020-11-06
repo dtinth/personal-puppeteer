@@ -37,8 +37,11 @@ See [the website](https://capture.the.spacet.me/) for usage information.
 
 ## Development
 
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/dtinth/personal-puppeteer)
+
 ```sh
 yarn
+yarn vercel login
 yarn vercel dev
 ```
 
