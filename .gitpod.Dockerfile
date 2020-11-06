@@ -1,1 +1,1 @@
-FROM gitpod/workspace-vnc-full
+FROM gitpod/workspace-full-vnc
