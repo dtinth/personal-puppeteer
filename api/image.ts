@@ -89,6 +89,7 @@ async function renderImage({
       }
     `
     document.head.appendChild(style)
+    document.documentElement.dataset.screenshotMode = '1'
     await new Promise(requestAnimationFrame)
     await new Promise(requestAnimationFrame)
   })
