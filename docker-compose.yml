@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  server:
+    build: .
+    init: true
+    ports:
+      - 127.0.0.1:3000:3000
+    command: 'yarn vercel -Q /vercel dev'
+    entrypoint: ''
+    environment:
+      # To check configuration:
+      # $ docker-compose run server node -e 'require("chrome-aws-lambda").executablePath.then(console.log, console.error)'
+      - AWS_EXECUTION_ENV=AWS_Lambda_nodejs12.x
+      - AWS_LAMBDA_FUNCTION_NAME=image
+    volumes:
+      - ./private/vercelglobal:/vercel
+      - ./.vercel:/var/task/.vercel
+      - ./api:/var/task/api
+      - ./public:/var/task/public
+      - ./vercel.json:/var/task/vercel.json
+      - ./tsconfig.json:/var/task/tsconfig.json

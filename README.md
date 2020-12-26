@@ -42,6 +42,16 @@ yarn
 yarn vercel dev
 ```
 
+### Docker-based development
+
+This setup uses the recently-released [AWS Lambda Base Images](https://github.com/aws/aws-lambda-base-images) to get a development environment as closest to the actual serverless function when run in Vercel as possible. This allows you to locally test, e.g. how fonts are rendered.
+
+```sh
+docker-compose build
+docker-compose run server yarn vercel login
+docker-compose up
+```
+
 ## Deployment
 
 ```sh

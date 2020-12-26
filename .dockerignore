@@ -1,0 +1,4 @@
+private/
+.vercel/
+node_modules/
+dist/
