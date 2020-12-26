@@ -129,6 +129,8 @@ async function getPage() {
       'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Bold.ttf',
       'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Italic.ttf',
       'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-BoldItalic.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSans/NotoSans-Regular.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@master/NotoSansCJK-Regular.ttc',
       'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf',
     ]
     await Promise.all(fonts.map(async (f) => chrome.font(f)))
