@@ -71,7 +71,7 @@ async function renderImage({
 }: ScreenshotOptions) {
   let page = await getPage()
   await page.setViewport({ width, height, deviceScaleFactor })
-  await page.goto(url, { waitUntil })
+  await page.goto(url, { waitUntil, timeout: 6400 }).catch(e => console.error(e))
   // See: https://github.com/puppeteer/puppeteer/issues/511
   await page.evaluate(async () => {
     const style = document.createElement('style')
