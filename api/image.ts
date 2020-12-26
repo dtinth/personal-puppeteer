@@ -132,10 +132,10 @@ async function patchFontConfig() {
     if (!contents.includes('<!-- patched -->')) {
       console.error('Patching fontconfig...')
       const extraRules = `
-        <alias>
-          <family>sans-serif</family>
-          <prefer>Arimo</prefer>
-        </alias>
+        <match target="pattern">
+          <test qual="any" name="family"><string>sans-serif</string></test>
+          <edit name="family" mode="prepend" binding="same"><string>Arimo</string></edit>
+        </match>
       `
       contents = contents
         .replace('<dir>/tmp/aws/.fonts</dir>', '')
