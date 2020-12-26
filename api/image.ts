@@ -3,6 +3,7 @@ import { launch, Page } from 'puppeteer-core'
 import chrome from 'chrome-aws-lambda'
 import { decode, verify } from 'jsonwebtoken'
 import { allowList } from './auth'
+import fs from 'fs'
 
 let _page: Page | null
 
@@ -71,7 +72,9 @@ async function renderImage({
 }: ScreenshotOptions) {
   let page = await getPage()
   await page.setViewport({ width, height, deviceScaleFactor })
-  await page.goto(url, { waitUntil, timeout: 6400 }).catch(e => console.error(e))
+  await page
+    .goto(url, { waitUntil, timeout: 6400 })
+    .catch((e) => console.error(e))
   // See: https://github.com/puppeteer/puppeteer/issues/511
   await page.evaluate(async () => {
     const style = document.createElement('style')
@@ -97,19 +100,42 @@ async function renderImage({
   return file
 }
 
+async function patchFontConfig() {
+  if (fs.existsSync('/tmp/aws/fonts.conf')) {
+    let contents = fs.readFileSync('/tmp/aws/fonts.conf', 'utf8')
+    if (!contents.includes('<!-- patched -->')) {
+      console.error('Patching fontconfig...')
+      const extraRules = `
+        <alias>
+          <family>sans-serif</family>
+          <prefer>Arimo</prefer>
+        </alias>
+      `
+      contents = contents
+        .replace('<dir>/tmp/aws/.fonts</dir>', '')
+        .replace(/<\/fontconfig>/, extraRules + '<!-- patched --></fontconfig>')
+      console.log(contents)
+      fs.writeFileSync('/tmp/aws/fonts.conf', contents)
+    }
+  }
+}
+
 async function getPage() {
   let page = _page
   if (!page) {
-    await chrome.font(
-      'https://cdn.jsdelivr.net/gh/googlei18n/noto-emoji@master/fonts/NotoColorEmoji.ttf'
-    )
-    await chrome.font(
-      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf'
-    )
+    const chromePathOnLambda = await chrome.executablePath
+    const fonts = [
+      'https://cdn.jsdelivr.net/gh/googlei18n/noto-emoji@master/fonts/NotoColorEmoji.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Regular.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Bold.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Italic.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-BoldItalic.ttf',
+    ]
+    await Promise.all(fonts.map(async (f) => chrome.font(f)))
+    await patchFontConfig()
     const browser = await launch({
       args: chrome.args,
-      executablePath:
-        (await chrome.executablePath) || '/usr/bin/chromium-browser',
+      executablePath: chromePathOnLambda || '/usr/bin/chromium-browser',
       headless: true,
     })
     page = await browser.newPage()
