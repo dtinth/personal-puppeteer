@@ -114,7 +114,6 @@ async function patchFontConfig() {
       contents = contents
         .replace('<dir>/tmp/aws/.fonts</dir>', '')
         .replace(/<\/fontconfig>/, extraRules + '<!-- patched --></fontconfig>')
-      console.log(contents)
       fs.writeFileSync('/tmp/aws/fonts.conf', contents)
     }
   }
