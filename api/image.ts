@@ -40,6 +40,8 @@ export default async function (req: NowRequest, res: NowResponse) {
       height: +payload.height || 720,
       deviceScaleFactor: +payload.deviceScaleFactor || 1,
       waitUntil,
+      js: String(payload.js || ''),
+      css: String(payload.css || ''),
     })
     res.setHeader('Content-Type', 'image/' + type)
     res.setHeader(
@@ -57,6 +59,8 @@ interface ScreenshotOptions {
   url: string
   width: number
   height: number
+  css: string
+  js: string
   deviceScaleFactor: number
   type: 'jpeg' | 'png'
   waitUntil: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2'
@@ -67,6 +71,8 @@ async function renderImage({
   type,
   width,
   height,
+  css,
+  js,
   deviceScaleFactor,
   waitUntil,
 }: ScreenshotOptions) {
@@ -75,8 +81,27 @@ async function renderImage({
   await page
     .goto(url, { waitUntil, timeout: 6400 })
     .catch((e) => console.error(e))
+  if (js) {
+    await page
+      .evaluate(async (code) => {
+        try {
+          await eval(code)
+        } catch (e) {
+          const errorBox = document.createElement(
+            'personal-puppeteer-error-box'
+          )
+          errorBox.setAttribute(
+            'style',
+            `position: fixed; bottom: 0; right: 0; background: red; color: white; z-index: 999999999; padding: 10px;`
+          )
+          errorBox.textContent = String(e)
+          document.body.appendChild(errorBox)
+        }
+      }, js)
+      .catch(console.error)
+  }
   // See: https://github.com/puppeteer/puppeteer/issues/511
-  await page.evaluate(async () => {
+  await page.evaluate(async (css) => {
     const style = document.createElement('style')
     style.textContent = `
       *,
@@ -90,12 +115,13 @@ async function renderImage({
         caret-color: transparent !important;
         color-adjust: exact !important;
       }
+      ${css}
     `
     document.head.appendChild(style)
     document.documentElement.dataset.screenshotMode = '1'
     await new Promise(requestAnimationFrame)
     await new Promise(requestAnimationFrame)
-  })
+  }, css || '')
   const file = await page.screenshot({ type })
   return file
 }
