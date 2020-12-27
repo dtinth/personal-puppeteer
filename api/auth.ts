@@ -45,6 +45,17 @@ uX1urElaiBAigqy19aYg5balOFyl3/aw0vUsxG9caetpVp1eKYfVRk8eOPFJ69AS
 KwIDAQAB
 -----END PUBLIC KEY-----`,
   },
+  'wonderful.software': {
+    publicKey: `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3r3dehkLMOggLWshm6NS
+g2Ct1gtPsi618BaBwPa459xcCvDM9e0wiGujM1kkvyLtEligkoqnOoYZL2YdHfK5
+aR9hBu/3C/uIqa6LMPLP2FO4sOiGaBIIKvxGWvkZ9CzNN/dcBgqSAoMU4UfNd/vH
+NHqJaQ+euTVLPe5JwMtSJqxemREu1wuhAhGI3V8tb0JmYthcvLzpvxeJg1Hwyd1g
+BpU1AatXp1OivGXdHQF4vP69Szn775ZofQzqlXaboCDjJ1Zu9wuvxCzJlplml7C3
+NAFPAKjVtw86bZyH8rMK/mfmh+5VK5gY/QC55ZqV+iA2VazAm/PYb5k9/h3SR27D
+FwIDAQAB
+-----END PUBLIC KEY-----`,
+  },
 }
 
 type AllowListItem = {
