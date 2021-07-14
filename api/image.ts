@@ -150,16 +150,18 @@ async function getPage() {
   if (!page) {
     const chromePathOnLambda = await chrome.executablePath
     const fonts = [
-      'https://cdn.jsdelivr.net/gh/googlei18n/noto-emoji@master/fonts/NotoColorEmoji.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Regular.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Bold.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-Italic.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@master/fonts/ttf/Arimo-BoldItalic.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSans/NotoSans-Regular.ttf',
-      'https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@master/NotoSansCJK-Regular.ttc',
-      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@master/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf',
+      'https://cdn.jsdelivr.net/gh/googlei18n/noto-emoji@948b1a7f1ed4ec7e27930ad8e027a740db3fe25e/fonts/NotoColorEmoji.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@dcb3e77c8800e3a35974ce45e23e1a983e1682d4/fonts/ttf/Arimo-Regular.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@dcb3e77c8800e3a35974ce45e23e1a983e1682d4/fonts/ttf/Arimo-Bold.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@dcb3e77c8800e3a35974ce45e23e1a983e1682d4/fonts/ttf/Arimo-Italic.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/Arimo@dcb3e77c8800e3a35974ce45e23e1a983e1682d4/fonts/ttf/Arimo-BoldItalic.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@8194fd72cbc46bb88e8246b68e42b96cbef0c700/hinted/ttf/NotoSans/NotoSans-Regular.ttf',
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@165c01b46ea533872e002e0785ff17e44f6d97d8/Sans/OTC/NotoSansCJK-Regular.ttc',
+      'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@8194fd72cbc46bb88e8246b68e42b96cbef0c700/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf',
     ]
-    await Promise.all(fonts.map(async (f) => chrome.font(f)))
+    await Promise.all(fonts.map(async (f) => chrome.font(f).catch((e) => {
+      console.error('Unable to fetch font %s', f, e)
+    })))
     await patchFontConfig()
     const browser = await launch({
       args: chrome.args,
