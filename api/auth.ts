@@ -67,6 +67,17 @@ CZEQZ9EZ83YnTxQhCyMd7ZQXKcx1kQFkmUPX7FPEMTfJunH5JHywHCXkGgfA6F7v
 4QIDAQAB
 -----END PUBLIC KEY-----`,
   },
+  'dtinth-webshots': {
+    publicKey: `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvgBT7qY48PCtoSILZ9Yq
+48ipyguM14bJqazGaZDYzY+FoXsFXfj/6v/FtuWn0gSiEKZ7Cd+9w256JA7rxCdZ
+ahe9CDYaaHPdglKSg93ncLaLal6KfNzCEaGvCeaKlt7cDNrNkKGg2chZaHKQbV26
+QWzZlSb8xUmNy3AwFd0/H81krCvolRu9zn7UNtXEeDKp7Gmxkr6kWFmWJimt53yg
+ogEnr+5IcxnbMKRn84DrxcFjf3NfjZWZ0lZUXMKHPVyW/ZFGC7lhOWNqwbfyun6B
+JX/9uRg4s1OysojxEks1k4HL5b55n+wnNSXGY+BUe5sum5o8LoEOq74K74cE1mKA
+NwIDAQAB
+-----END PUBLIC KEY-----`,
+  },
 }
 
 type AllowListItem = {
