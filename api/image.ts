@@ -159,10 +159,15 @@ async function getPage() {
       'https://cdn.jsdelivr.net/gh/googlefonts/noto-cjk@165c01b46ea533872e002e0785ff17e44f6d97d8/Sans/OTC/NotoSansCJK-Regular.ttc',
       'https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts@8194fd72cbc46bb88e8246b68e42b96cbef0c700/hinted/ttf/NotoSansThai/NotoSansThai-Regular.ttf',
     ]
-    await Promise.all(fonts.map(async (f) => chrome.font(f).catch((e) => {
-      console.error('Unable to fetch font %s', f, e)
-    })))
-    await patchFontConfig()
+    await Promise.all(
+      fonts.map(async (f) =>
+        chrome.font(f).catch((e) => {
+          console.error('Unable to fetch font %s', f, e)
+        })
+      )
+    )
+    // Disabled because it is not compatible with the latest version…
+    // await patchFontConfig()
     const browser = await launch({
       args: chrome.args,
       executablePath: chromePathOnLambda || '/usr/bin/chromium-browser',

@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.0",
-    "chrome-aws-lambda": "^5.3.1",
+    "chrome-aws-lambda": "^10.1.0",
     "jsonwebtoken": "^8.5.1",
-    "puppeteer-core": "^5.3.1"
+    "puppeteer-core": "^10.4.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

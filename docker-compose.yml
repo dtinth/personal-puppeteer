@@ -5,15 +5,15 @@ services:
     init: true
     ports:
       - 127.0.0.1:3000:3000
-    command: 'yarn vercel -Q /vercel dev'
+    command: 'yarn vercel dev'
     entrypoint: ''
     environment:
       # To check configuration:
       # $ docker-compose run server node -e 'require("chrome-aws-lambda").executablePath.then(console.log, console.error)'
-      - AWS_EXECUTION_ENV=AWS_Lambda_nodejs12.x
+      - AWS_EXECUTION_ENV=AWS_Lambda_nodejs14.x
       - AWS_LAMBDA_FUNCTION_NAME=image
     volumes:
-      - ./private/vercelglobal:/vercel
+      - ./private/vercelglobal:/root/.local/share/com.vercel.cli
       - ./.vercel:/var/task/.vercel
       - ./api:/var/task/api
       - ./public:/var/task/public
