@@ -169,7 +169,7 @@ async function getPage() {
     // Disabled because it is not compatible with the latest version…
     // await patchFontConfig()
     const browser = await launch({
-      args: chrome.args,
+      args: [...chrome.args, '--font-render-hinting=none'],
       executablePath: chromePathOnLambda || '/usr/bin/chromium-browser',
       headless: true,
     })
