@@ -1,12 +1,9 @@
 {
-  "routes": [
+  "redirects": [
     {
-      "src": "/([^/]+).png",
-      "dest": "/api/image?jwt=$1&type=png"
-    },
-    {
-      "src": "/([^/]+).jpg",
-      "dest": "/api/image?jwt=$1&type=jpeg"
+      "source": "/:image(ey.*\\\\.(?:png|jpeg))",
+      "destination": "https://screenshotter.fly.dev/api/image/:image",
+      "permanent": false
     }
   ]
 }
