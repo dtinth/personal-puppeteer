@@ -1,7 +1,7 @@
 {
   "redirects": [
     {
-      "source": "/:image(ey.*\\.(?:png|jpeg))",
+      "source": "/:image(ey.*\\.(?:png|jpeg|jpg))",
       "destination": "https://screenshotter.fly.dev/api/image/:image",
       "permanent": false
     }
